@@ -6,14 +6,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AgentDetailViewer : MonoBehaviour {
+    public GameObject nodePrefab;
+    [Range(1, 25)]public int numNodes = 1; //TODO temporary
+    [Range(1, 25)] public int numRows = 1; //TODO temporary
+
+    private int prevNumNodes = -1;  //TODO temporary
+    private int prevNumRows = -1; //TODO temporary
     private BoidAgent prevSelected = null;
     private ArrayList drawnNodes = new ArrayList();
-    public GameObject nodePrefab;
-    private int scale = 4;
     private void Update() { //TODO make this more efficient
         BoidAgent selectedAgent = GlobalManager.Instance.selectedAgent;
-        if (selectedAgent != prevSelected) {  //if we are selecting a new agent on this step
+        if (selectedAgent != prevSelected || numNodes != prevNumNodes || numRows != prevNumRows) {  //if we are selecting a new agent on this step
             prevSelected = selectedAgent;
+            prevNumNodes = numNodes;
+            prevNumRows = numRows;
             foreach (GameObject node in drawnNodes) {
                 Destroy(node);
             }
@@ -28,17 +34,27 @@ public class AgentDetailViewer : MonoBehaviour {
             screenTopRight.z = 0;
             Debug.Log("screenBottomLeft: "+screenBottomLeft+", screenTopRight: "+screenTopRight);
             
-            for (int i = 0; i < genome.layerRows.Count; i++) {
-                var nodePosition = screenTopRight;
-                nodePosition.x -= scale*(0.5f);
-                nodePosition.y -= scale*(i + 0.5f);
-                var newNode = Instantiate(
-                    nodePrefab,
-                    nodePosition,
-                    Quaternion.identity,
-                    transform);
-                newNode.transform.localScale = new Vector3(scale, scale, scale);
-                drawnNodes.Add(newNode);
+            var scale = Mathf.Min((20f / numNodes), 5);
+            for (int i = 0; i < numNodes; i++) {
+                for (int j = 0; j < numRows; j++) {
+                    var nodePosition = screenTopRight;
+                    nodePosition.x -= (j+1)*scale*(1.25f);
+                    if (numNodes < 4) {
+                        // for 1 through 3, space them out on the 1/2 mark for 1, 1/3rd marks for 2, 1/4th marks for 3
+                        nodePosition.y = screenTopRight.y - 
+                                         ((i+1)* ((Math.Abs(screenTopRight.y) + Math.Abs(screenBottomLeft.y))/(numNodes+1)));
+                    }
+                    else {
+                        nodePosition.y -= scale*(i + 0.5f);
+                    }
+                    var newNode = Instantiate(
+                        nodePrefab,
+                        nodePosition,
+                        Quaternion.identity,
+                        transform);
+                    newNode.transform.localScale = new Vector3(scale, scale, scale);
+                    drawnNodes.Add(newNode);
+                }
             }
         }
     }
