@@ -22,6 +22,10 @@ public class BoidAgent : MonoBehaviour {
         agentBehavior = ScriptableObject.CreateInstance<NNBasicBehavior>();
     }
 
+    private void OnMouseDown() {
+        GlobalManager.Instance.selectedAgent = this;
+    }
+
     // Update is called once per frame
     void Update() {
 //        Vector2 goalPosition = new Vector2(0.5f, 0.5f);

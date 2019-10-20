@@ -11,6 +11,7 @@ namespace AgentBehavior.NeuralNetwork {
         private ArrayList _outputs = new ArrayList();
         private ArrayList _connections = new ArrayList();
         private InnovationIndexer _innovationIndexer;
+        public ArrayList layerRows = new ArrayList();
         
         public Genome(int numInputs, int numOutputs, InnovationIndexer innovationIndexer) {
             _innovationIndexer = innovationIndexer;
@@ -29,6 +30,8 @@ namespace AgentBehavior.NeuralNetwork {
                     AddConnection((Node) _inputs[i], (Node) _outputs[j], Random.Range(-1f, 1f));
                 }
             }
+            layerRows.Add(_inputs);
+            layerRows.Add(_outputs);
         }
         
         /// <summary>
