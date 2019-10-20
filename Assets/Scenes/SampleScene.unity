@@ -501,7 +501,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 614982971}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -545,7 +545,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 8797586460032146220, guid: 4aa2c6927d1f94e4b8ff86aaa45672b2,
     type: 3}
-  text: {fileID: 1687317312445334070, guid: 433609c8b22bd6b449a425cdd8896495, type: 3}
 --- !u!1 &1805829869
 GameObject:
   m_ObjectHideFlags: 0
