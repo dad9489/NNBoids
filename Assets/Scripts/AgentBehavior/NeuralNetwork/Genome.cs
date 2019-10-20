@@ -9,7 +9,7 @@ namespace AgentBehavior.NeuralNetwork {
         private ArrayList _nodes = new ArrayList();
         private ArrayList _inputs = new ArrayList();
         private ArrayList _outputs = new ArrayList();
-        private ArrayList _connections = new ArrayList();
+        public ArrayList connections = new ArrayList();
         private InnovationIndexer _innovationIndexer;
         public ArrayList layerRows = new ArrayList();
         
@@ -60,7 +60,7 @@ namespace AgentBehavior.NeuralNetwork {
             Connection connection = new Connection(fromNode, toNode, weight,
                 _innovationIndexer.GetNextConnectionInnovation());
             toNode.AddInput(connection);
-            _connections.Add(connection);
+            connections.Add(connection);
         }
     }
 }
