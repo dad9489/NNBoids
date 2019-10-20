@@ -33,19 +33,21 @@ public class AgentDetailViewer : MonoBehaviour {
             var screenTopRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
             screenTopRight.z = 0;
             Debug.Log("screenBottomLeft: "+screenBottomLeft+", screenTopRight: "+screenTopRight);
-            
+
+            var genomeLayerRows = genome.layerRows;
             var scale = Mathf.Min((20f / numNodes), 5);
-            for (int i = 0; i < numNodes; i++) {
-                for (int j = 0; j < numRows; j++) {
+            for (int i = 0; i < genomeLayerRows.Count; i++) {
+                var genomeLayer = (ArrayList) genomeLayerRows[i];
+                for (int j = 0; j < genomeLayer.Count; j++) {
                     var nodePosition = screenTopRight;
-                    nodePosition.x -= (j+1)*scale*(1.25f);
-                    if (numNodes < 4) {
+                    nodePosition.x -= (i+1)*scale*(1.25f);
+                    if (genomeLayer.Count < 4) {
                         // for 1 through 3, space them out on the 1/2 mark for 1, 1/3rd marks for 2, 1/4th marks for 3
                         nodePosition.y = screenTopRight.y - 
-                                         ((i+1)* ((Math.Abs(screenTopRight.y) + Math.Abs(screenBottomLeft.y))/(numNodes+1)));
+                                         ((j+1)* ((Math.Abs(screenTopRight.y) + Math.Abs(screenBottomLeft.y))/(genomeLayer.Count+1)));
                     }
                     else {
-                        nodePosition.y -= scale*(i + 0.5f);
+                        nodePosition.y -= scale*(j + 0.5f);
                     }
                     var newNode = Instantiate(
                         nodePrefab,
