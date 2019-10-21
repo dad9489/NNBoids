@@ -23,6 +23,13 @@ public class BoidAgent : MonoBehaviour {
     }
 
     private void OnMouseDown() {
+        var oldSelectedAgent = GlobalManager.Instance.selectedAgent;
+        if (oldSelectedAgent != null) {
+            var oldSpriteRenderer = oldSelectedAgent.gameObject.GetComponentInChildren<SpriteRenderer>();
+            oldSpriteRenderer.color = Color.white;
+        }
+        var thisSpriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        thisSpriteRenderer.color = Color.red;
         GlobalManager.Instance.selectedAgent = this;
     }
 

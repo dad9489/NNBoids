@@ -16,13 +16,14 @@ public class AgentDetailViewer : MonoBehaviour {
     private BoidAgent prevSelected = null;
     private ArrayList drawnNodes = new ArrayList();
     private Dictionary<Node, GameObject> nodeToObj = new Dictionary<Node, GameObject>();
-    private Dictionary<GameObject, Node> objToNode = new Dictionary<GameObject, Node>();
+    private Dictionary<string, Node> objNameToNode = new Dictionary<string, Node>();
     private void OnGUI() { //TODO make this more efficient
         BoidAgent selectedAgent = GlobalManager.Instance.selectedAgent;
         if (selectedAgent != prevSelected) {  //if we are selecting a new agent on this step
             prevSelected = selectedAgent;
             nodeToObj = new Dictionary<Node, GameObject>();
-            objToNode = new Dictionary<GameObject, Node>();
+            objNameToNode = new Dictionary<string, Node>();
+            drawnNodes = new ArrayList();
             Debug.Log("new selected");
             foreach (GameObject node in drawnNodes) {
                 Destroy(node);
@@ -44,6 +45,7 @@ public class AgentDetailViewer : MonoBehaviour {
                 maxNodes = Math.Max(maxNodes, layerRow.Count);
             }
             var scale = Mathf.Min((20f / maxNodes), 5);
+            var nodeIndex = 0;
             for (int i = 0; i < genomeLayerRows.Count; i++) {
                 var genomeLayer = (ArrayList) genomeLayerRows[i];
                 for (int j = 0; j < genomeLayer.Count; j++) {
@@ -64,10 +66,11 @@ public class AgentDetailViewer : MonoBehaviour {
                         Quaternion.identity,
                         transform);
                     newNode.transform.localScale = new Vector3(scale, scale, scale);
+                    newNode.name = "Node" + nodeIndex++;
                     var image = newNode.GetComponent<Image>();
                     image.color = WeightToColor(node.GetActivation());
                     nodeToObj.Add(node, newNode);
-                    objToNode.Add(newNode, node);
+                    objNameToNode.Add(newNode.name, node);
                     drawnNodes.Add(newNode);
                 }
             }
@@ -90,12 +93,10 @@ public class AgentDetailViewer : MonoBehaviour {
         else {
             if (drawnNodes.Count > 0) {
                 foreach (GameObject nodeObj in drawnNodes) {
-                    var node = objToNode[nodeObj];
+                    var node = objNameToNode[nodeObj.name];
                     var image = nodeObj.GetComponent<Image>();
                     image.color = WeightToColor(node.GetActivation());
                 }
-
-                Debug.Log("changing colors");
             }
         }
     }

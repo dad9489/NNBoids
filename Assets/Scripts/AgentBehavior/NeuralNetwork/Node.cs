@@ -47,5 +47,9 @@ namespace AgentBehavior.NeuralNetwork {
         private float sigmoid(float x) {
             return (float)((2 / (Math.Exp(-x) + 1)) - 1);
         }
+
+        public override string ToString() {
+            return "Node"+_nodeInnovationNum;
+        }
     }
 }

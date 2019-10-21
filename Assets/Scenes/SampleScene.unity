@@ -545,6 +545,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 8797586460032146220, guid: 4aa2c6927d1f94e4b8ff86aaa45672b2,
     type: 3}
+  lineRendererPrefab: {fileID: 6738069811328366571, guid: 99c5864ae4563014fbd81339bb3e2f2d,
+    type: 3}
 --- !u!1 &1805829869
 GameObject:
   m_ObjectHideFlags: 0
